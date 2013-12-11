@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <java>
+   	  <c title="启动浏览器">android</c>
+   	  <c title="关闭浏览器">osd</c>
+  	  <c title="最大化浏览器">123</c>
+  	  <c title="最小化览器">567</c>
+  	  <c title="浏览器">890</c>
+    </java>

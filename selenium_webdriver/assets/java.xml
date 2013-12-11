@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<title name = "启动浏览器" id = "1">
+    <content>
+       	 在使用webdriver进行测试时启动浏览器无疑是必须的前置工作。
+       	 
+       	 import org.openqa.selenium.WebDriver;
+  	     import org.openqa.selenium.chrome.ChromeDriver;
+
+
+   		 public class StartBrowser {
+
+            public static void main(String[] args) {
+            WebDriver dr = new ChromeDriver();
+      		  }
+
+   		 }
+        </content>
+    </title>
+    
+<title name = "关闭浏览器" id = "2">
+    <content>
+       	在脚本运行完毕或者测试代码结束的时候关闭浏览器是非常自然的事情，就像在吃完饭后就把餐桌收拾干净一样。
+
+		关闭浏览器有两种方式：
+
+		close方法
+
+		quit方法
+
+		close方法关闭当前的浏览器窗口，quit方法不仅关闭窗口，还会彻底的退出webdriver，释放与driver server之间的连接。所以简单来说quit是更加彻底的close，quit会更好的释放资源，适合强迫症和完美主义者。
+		
+		代码
+
+    	import org.openqa.selenium.WebDriver;
+    	import org.openqa.selenium.chrome.ChromeDriver;
+
+
+    	public class CloseBrowser {
+
+       	 public static void main(String[] args) {
+         	   WebDriver dr = new ChromeDriver();
+         	   System.out.println("browser will be closed");
+
+        	   dr.quit();  
+           	   System.out.println("browser is closed");
+      		  }
+	
+  	 	 }
+		
+        </content>
+    </title>
+ 
+<title name = "最大化浏览器" id = "3">
+    <content>
+     场景
+
+当我们在测试中使用一些基于图像和坐标的辅助测试工具时，我们就会需要使浏览器在每次测试时保存最大化，以便在同一分辨率下进行图像比对和坐标点选。
+
+举例来说，如果在webdriver测试中使用了sikuli来对flash插件进行操作的话，把浏览器最大化无疑是一个比较简单的保证分辨率统一的解决方案。
+
+代码
+
+    import org.openqa.selenium.WebDriver;
+    import org.openqa.selenium.chrome.ChromeDriver;
+
+
+    public class Maximize {
+
+        public static void main(String[] args) throws InterruptedException {
+            WebDriver dr = new ChromeDriver();
+            Thread.sleep(2000);
+
+            System.out.println("maximize browser");
+            dr.manage().window().maximize();
+            Thread.sleep(2000);
+
+            System.out.println("browser will be close");
+            dr.quit();  
+        }
+
+    }
+        </content>
+    </title>
+ 
