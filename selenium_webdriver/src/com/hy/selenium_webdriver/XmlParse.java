@@ -13,11 +13,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import android.R.string;
+import android.graphics.SumPathEffect;
+
 public class XmlParse {
 	
 	private InputStream in;
 	private Document doc;
-	private String[] titleNameGroup = {};
+	private String[] titleNameGroup;
 	
 	public XmlParse(InputStream ins) {
 		this.in = ins;		
@@ -45,11 +48,13 @@ public class XmlParse {
 
 	public String[] getTitleValue(String childNode, String childNodeAttribute){
 		NodeList nodeList = doc.getElementsByTagName(childNode);
-
-		for(int i=0; i < nodeList.getLength(); i++){
+		int sum = nodeList.getLength();
+		for(int i=0; i < sum; i++){
 			Node node = nodeList.item(i);
 			NamedNodeMap map = node.getAttributes();
 			String titleName = map.getNamedItem(childNodeAttribute).getNodeValue();
+			
+			titleNameGroup = new String[sum];
 			titleNameGroup[i] = titleName;
 		}
 		 
