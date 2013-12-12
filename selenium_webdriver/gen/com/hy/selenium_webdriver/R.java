@@ -31,18 +31,24 @@ public final class R {
         public static final int list_bg1=0x7f020007;
         public static final int main_bg=0x7f020008;
         public static final int select_language=0x7f020009;
+        public static final int title=0x7f02000a;
     }
     public static final class id {
-        public static final int action_settings=0x7f090009;
-        public static final int javaBtn=0x7f090002;
-        public static final int lv=0x7f090000;
-        public static final int main_bg=0x7f090007;
-        public static final int pythonBtn=0x7f090004;
-        public static final int rubyBtn=0x7f090003;
-        public static final int textView1=0x7f090001;
-        public static final int textView2=0x7f090006;
-        public static final int title=0x7f090008;
-        public static final int watirBtn=0x7f090005;
+        public static final int action_settings=0x7f09000e;
+        public static final int content=0x7f090004;
+        public static final int detail_title=0x7f090003;
+        public static final int imageButton1=0x7f09000d;
+        public static final int javaBtn=0x7f090006;
+        public static final int list_version=0x7f090000;
+        public static final int lv=0x7f090001;
+        public static final int main_bg=0x7f09000b;
+        public static final int pythonBtn=0x7f090008;
+        public static final int rubyBtn=0x7f090007;
+        public static final int scrollView1=0x7f090002;
+        public static final int textView1=0x7f090005;
+        public static final int textView2=0x7f09000a;
+        public static final int title=0x7f09000c;
+        public static final int watirBtn=0x7f090009;
     }
     public static final class layout {
         public static final int activity_contentlist=0x7f030000;
@@ -50,12 +56,16 @@ public final class R {
         public static final int activity_guide=0x7f030002;
         public static final int activity_main=0x7f030003;
         public static final int list=0x7f030004;
+        public static final int titlebtn=0x7f030005;
     }
     public static final class menu {
         public static final int main=0x7f080000;
     }
     public static final class raw {
         public static final int java=0x7f040000;
+        public static final int python=0x7f040001;
+        public static final int ruby=0x7f040002;
+        public static final int watir_webdriver=0x7f040003;
     }
     public static final class string {
         public static final int action_settings=0x7f060001;

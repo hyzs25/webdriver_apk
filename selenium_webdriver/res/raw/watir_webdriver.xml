@@ -1,586 +1,276 @@
 <?xml version="1.0" encoding="utf-8"?>
     <java>
    	  <c title="启动浏览器" pos = "1">
-场景
-
-在使用webdriver进行测试时启动浏览器无疑是必须的前置工作。
-
-代码
-
-    import org.openqa.selenium.WebDriver;
-    import org.openqa.selenium.chrome.ChromeDriver;
 
 
-    public class StartBrowser {
+require 'watir-webdriver'
 
-        public static void main(String[] args) {
-            WebDriver dr = new ChromeDriver();
-        }
+b = Watir::Browser.new(:chrome)
 
-    }
    	  </c>
    	  <c title="关闭浏览器" pos = "2">
-场景
-
-在脚本运行完毕或者测试代码结束的时候关闭浏览器是非常自然的事情，就像在吃完饭后就把餐桌收拾干净一样。
-
-关闭浏览器有两种方式：
-
-close方法
-
-quit方法
-
-close方法关闭当前的浏览器窗口，quit方法不仅关闭窗口，还会彻底的退出webdriver，释放与driver server之间的连接。所以简单来说quit是更加彻底的close，quit会更好的释放资源，适合强迫症和完美主义者。
-
-代码
-
-    import org.openqa.selenium.WebDriver;
-    import org.openqa.selenium.chrome.ChromeDriver;
 
 
-    public class CloseBrowser {
+require 'watir-webdriver'
 
-        public static void main(String[] args) {
-            WebDriver dr = new ChromeDriver();
-            System.out.println("browser will be closed");
+b = Watir::Browser.new :chrome
+sleep 2
+puts 'browser will be closed'
+b.close 
+puts 'browser is closed'
 
-            dr.quit();  
-            System.out.println("browser is closed");
-        }
-
-    }
    	  </c>
   	  <c title="最大化浏览器" pos = "3">
-场景
-
-当我们在测试中使用一些基于图像和坐标的辅助测试工具时，我们就会需要使浏览器在每次测试时保存最大化，以便在同一分辨率下进行图像比对和坐标点选。
-
-举例来说，如果在webdriver测试中使用了sikuli来对flash插件进行操作的话，把浏览器最大化无疑是一个比较简单的保证分辨率统一的解决方案。
-
-代码
-
-    import org.openqa.selenium.WebDriver;
-    import org.openqa.selenium.chrome.ChromeDriver;
 
 
-    public class Maximize {
+require 'watir-webdriver'
 
-        public static void main(String[] args) throws InterruptedException {
-            WebDriver dr = new ChromeDriver();
-            Thread.sleep(2000);
+b = Watir::Browser.new :chrome
+sleep 2
+puts 'maximize browser'
+b.window.maximize
+sleep 2
+puts 'close browser'
+b.close
 
-            System.out.println("maximize browser");
-            dr.manage().window().maximize();
-            Thread.sleep(2000);
-
-            System.out.println("browser will be close");
-            dr.quit();  
-        }
-
-    }
   	  </c>
   	  <c title="定制浏览器大小" pos="4">
-场景
-
-设置浏览器窗口的大小有下面两个比较常见的用途：
-
-在统一的浏览器大小下运行用例，可以比较容易的跟一些基于图像比对的工具进行结合，提升测试的灵活性及普遍适用性。比如可以跟sikuli结合，使用sikuli操作flash；
-
-在不同的浏览器大小下访问测试站点，对测试页面截图并保存，然后观察或使用图像比对工具对被测页面的前端样式进行评测。比如可以将浏览器设置成移动端大小(320x480)，然后访问移动站点，对其样式进行评估；
-
-代码
-
-将浏览器调整成移动端大小，然后访问移动站点，对移动站点的样式进行评估。
-
-    import org.openqa.selenium.WebDriver;
-    import org.openqa.selenium.chrome.ChromeDriver;
 
 
-    public class CloseBrowser {
+require 'watir-webdriver'
 
-        public static void main(String[] args) {
-            WebDriver dr = new ChromeDriver();
-            System.out.println("browser will be closed");
+b = Watir::Browser.new :chrome
 
-            dr.quit();  
-            System.out.println("browser is closed");
-        }
+b.window.resize_to(320, 480)
+b.goto '3g.qq.com'
 
-    }
+sleep 3
+b.close
 
-讨论
-
-webdriver提供了很多调整浏览器窗口的接口，比如move_to(移动窗口)，position(设置或获取浏览器的位置)。在一般情况下这些功能并不常用。
   	  </c>
   	  <c title="访问链接" pos="5">
-访问链接
-情景
 
-web UI测试里最简单也是最基本的事情就是访问1个链接了。
+require 'watir-webdriver'
 
-webdriver的api里有2种访问url的方式，分别是get和navigate.to方法。一般情况下建议使用get，因为其字母比较少，不太容易出错。
+b = Watir::Browser.new :chrome
+url = 'http://www.baidu.com'
+puts "now access #{url}"
+b.goto url
 
-代码
+sleep 5
 
-    import org.openqa.selenium.WebDriver;
-    import org.openqa.selenium.chrome.ChromeDriver;
+b.close
 
-
-    public class Get {
-
-        public static void main(String[] args) throws InterruptedException {
-            WebDriver dr = new ChromeDriver();
-            Thread.sleep(2000);
-
-            String url = "http://www.baidu.com";
-            System.out.printf("now accesss %s \n", url);
-            dr.get(url);
-            Thread.sleep(2000);
-
-            System.out.println("browser will be close");
-            dr.quit();  
-        }
-
-    }
-
-讨论
-
-navigate方法实际上会产生1个Navigator对象，其封装了与导航相关的一些方法，比如前进后退等。
   	  </c>
   	  <c title="打印当前页面的title及url" pos="6">
-  	      情景
-
-测试中，访问1个页面然后判断其title是否符合预期是很常见的1个用例，所谓用例不够，title来凑就是这个道理。更具体一点，假设1个页面的title应该是'hello world', 那么可以写这样的一个用例：访问该页面，获取该页面的title，判断获取的值是否等于'hello world'。
-
-获取当前页面的url也是非常重要的一个操作。在某些情况下，你访问一个url，这时系统会自动对这个url进行跳转，这就是所谓的'重定向'。一般测试重定向的方法是访问这个url，然后等待页面重定向完毕之后，获取当前页面的url，判断该url是否符合预期。另外的一个常见的测试场景是提交了一个表单，如果表单内容通过了验证，那么则会跳转到一个新页面，如果未通过验证，则会停留在当前页面，此时获取当前页面的url则可以帮助我们判断表单提交的跳转是否符合预期。更具体一点，假如你在测试一个登陆页面，输入正确的登陆信息后，会跳转到系统首页。获取跳转后的url然后判断其是否与系统首页的url相符将是一个很不错的用例。
-
-代码
-
-    import org.openqa.selenium.WebDriver;
-    import org.openqa.selenium.chrome.ChromeDriver;
 
 
-    public class TitleAndUrl {
+require 'watir-webdriver'
 
-        public static void main(String[] args) throws InterruptedException {
-            WebDriver dr = new ChromeDriver();
-            Thread.sleep(2000);
+b = Watir::Browser.new :chrome
+url = 'http://www.baidu.com'
+puts "now access #{url}"
+b.goto url
 
-            String url = "http://www.baidu.com";
-            System.out.printf("now accesss %s \n", url);
+puts "title of current page is #{b.title}"
+puts "url of current page is #{b.url}"
+sleep 1
 
-            dr.get(url);
-            Thread.sleep(2000);
-
-            System.out.printf("title of current page is %s\n", dr.getTitle());
-            System.out.printf("url of current page is %s\n", dr.getCurrentUrl());
-
-            System.out.println("browser will be close");
-            dr.quit();  
-        }
-
-    }   
+b.close 
   	      
   	  </c>
   	   <c title="前进和后退" pos="7">
-  	       场景
-
-说实话，这两个功能一般不太常用。所能想到的场景大概也就是在几个页面间来回跳转，省去每次都get url。
-
-代码
-
-    import org.openqa.selenium.WebDriver;
-    import org.openqa.selenium.chrome.ChromeDriver;
 
 
-    public class ForwardAndBack {
+require 'watir-webdriver'
 
-        public static void main(String[] args) throws InterruptedException {
-            WebDriver dr = new ChromeDriver();
-            Thread.sleep(2000);
+b = Watir::Browser.new :chrome
+first_url = 'http://www.baidu.com'
+puts "now access #{first_url}"
+b.goto(first_url)
+sleep 1
+second_url = 'http://www.news.baidu.com'
+puts "now access #{second_url}"
+b.goto(second_url)
+sleep 1
 
-            String firstUrl = "http://www.baidu.com";
-            System.out.printf("now accesss %s \n", firstUrl);
-            dr.get(firstUrl);
-            Thread.sleep(1000);
+puts "back to #{first_url}"
+b.back()
+sleep 1
+puts "forward to #{second_url}"
+b.forward()
+sleep 1
+b.close
 
-            String secondUrl = "http://www.soso.com";
-            System.out.printf("now accesss %s \n", secondUrl);
-            dr.get(secondUrl);
-            Thread.sleep(1000);
-
-            System.out.printf("now back to  %s \n", firstUrl);
-            dr.navigate().back();
-            Thread.sleep(1000);
-
-            System.out.printf("forward to  %s \n", secondUrl);
-            dr.navigate().forward();
-            Thread.sleep(1000);
-
-            System.out.println("browser will be close");
-            dr.quit();  
-        }
-
-    }
   	   </c>
   	    <c title="简单的对象定位"  pos="8">
 
-场景
 
-测试对象的定位和操作是webdriver的核心内容，其中操作又是建立在定位的基础之上,因此对象定位就越发显得重要了。
+ require 'watir-webdriver'
 
-定位对象的目的一般有下面几种
+b = Watir::Browser.new :chrome
+file_path = 'file:///' + File.expand_path(File.join('.', 'form.html'))
 
-操作对象
-获得对象的属性，如获得测试对象的class属性，name属性等等
-获得对象的text
-获得对象的数量
-webdriver提供了一系列的对象定位方法，常用的有以下几种
+b.goto file_path
 
-id
-name
-class name
-link text
-partial link text
-tag name
-xpath
-css selector
-代码
+# by id
+b.text_field(:id, 'inputEmail').click
 
-    import java.io.File;
+# by name
+b.text_field(:name, 'password').click
 
-    import org.openqa.selenium.By;
-    import org.openqa.selenium.WebDriver;
-    import org.openqa.selenium.WebElement;
-    import org.openqa.selenium.chrome.ChromeDriver;
-    import org.openqa.selenium.JavascriptExecutor;
+# by tagname
+puts b.form().attribute_value(:class)
 
+# by class_name
+e = b.div(:class, 'controls')
+b.execute_script('$(arguments[0]).fadeOut().fadeIn()', e)
+sleep 1
 
-    public class SimpleLocate {
+# by link text
+link = b.link(:text, 'register')
+b.execute_script('$(arguments[0]).fadeOut().fadeIn()', link)
+sleep 1
 
-        public static void main(String[] args) throws InterruptedException {
-            WebDriver dr = new ChromeDriver();
+# by partial link text
+link = b.link(:text, /reg/)
+b.execute_script('$(arguments[0]).fadeOut().fadeIn()', link)
+sleep 1
 
-            File file = new File("src/form.html");
-            String filePath = "file:///" + file.getAbsolutePath();
-            System.out.printf("now accesss %s \n", filePath);
+# by css selector
+div = b.element(:css, '.controls')
+b.execute_script('$(arguments[0]).fadeOut().fadeIn()', div)
+sleep 1
 
-            dr.get(filePath);
-            Thread.sleep(2000);
-
-    //      by id
-            dr.findElement(By.id("inputEmail")).click();
-            Thread.sleep(1000);
-
-    //      by name
-            dr.findElement(By.name("password"));
-            Thread.sleep(1000);
-
-    //      by tagname
-            String classOfForm = dr.findElement(By.tagName("form")).getAttribute("class");
-            System.out.printf("%s\n", classOfForm);
-            Thread.sleep(1000);
-
-    //      by link text
-            WebElement link = dr.findElement(By.linkText("register"));
-            ((JavascriptExecutor)dr).executeScript("$(arguments[0]).fadeOut().fadeIn()", link);
-            Thread.sleep(1000);
-
-    //      by partial link test
-            WebElement sameLink = dr.findElement(By.partialLinkText("reg"));
-            ((JavascriptExecutor)dr).executeScript("$(arguments[0]).fadeOut().fadeIn()", sameLink);
-            Thread.sleep(1000);
-
-    //      by css selector
-            WebElement div = dr.findElement(By.cssSelector(".controls"));
-            ((JavascriptExecutor)dr).executeScript("$(arguments[0]).fadeOut().fadeIn()", div);
-            Thread.sleep(1000);
-
-    //      by xpath
-            dr.findElement(By.xpath("/html/body/form/div[3]/div/label/input")).click();
-            Thread.sleep(1000);
-
-            System.out.println("browser will be close");
-            dr.quit();  
-        }
-
-    }
+sleep 2
+b.close
 
 讨论
 
 上面例子里由于html文件中引用了jquery，所以在执行js时可以使用jquery的$()及fadeIn()等方法。如果你测试的页面没用包含jquery的话，这些方法是无效的。</c>
   	     <c title="定位一组对象" pos="9">
-场景
+#encoding: utf-8
+require 'watir-webdriver'
 
-从上一节的例子中可以看出，webdriver可以很方便的使用findElement方法来定位某个特定的对象，不过有时候我们却需要定位一组对象，这时候就需要使用findElements方法。
+b = Watir::Browser.new :chrome
+file_path = 'file:///' + File.expand_path(File.join('.', 'checkbox.html'))
 
-定位一组对象一般用于以下场景：
+b.goto file_path
 
-批量操作对象，比如将页面上所有的checkbox都勾上
-先获取一组对象，再在这组对象中过滤出需要具体定位的一些对象。比如定位出页面上所有的checkbox，然后选择最后一个
-代码
- import java.io.File;
-    import java.util.List;
+# 选择所有的checkbox并全部勾上
+#dr.find_elements(:css, 'input[type=checkbox]').each {|c| c.click}
+b.checkboxes.each { |c| c.set(true) }
+b.refresh
+sleep 1
 
-    import org.openqa.selenium.By;
-    import org.openqa.selenium.WebDriver;
-    import org.openqa.selenium.WebElement;
-    import org.openqa.selenium.chrome.ChromeDriver;
-    import org.openqa.selenium.JavascriptExecutor;
+# 打印当前页面上有多少个checkbox
+#puts dr.find_elements(:css, 'input[type=checkbox]').size
+puts b.checkboxes.size
 
+# 选择页面上所有的input，然后从中过滤出所有的checkbox并勾选之
+# 在watir-webdriver中是不需要这样做的
+=begin
+dr.find_elements(:tag_name, 'input').each do |input|
+        input.click if input.attribute(:type) == 'checkbox'
+end 
+sleep 1
+=end
 
-    public class SimpleLocate {
+# 把页面上最后1个checkbox的勾给去掉
+#dr.find_elements(:css, 'input[type=checkbox]').last.click
+b.checkboxes.last.click
 
-        public static void main(String[] args) throws InterruptedException {
-            WebDriver dr = new ChromeDriver();
-
-            File file = new File("src/checkbox.html");
-            String filePath = "file:///" + file.getAbsolutePath();
-            System.out.printf("now accesss %s \n", filePath);
-
-            dr.get(filePath);
-            Thread.sleep(1000);
-
-    //      选择所有的checkbox并全部勾上
-            List&lt;WebElement&gt; checkboxes = dr.findElements(By.cssSelector("input[type=checkbox]"));
-            for(WebElement checkbox : checkboxes) {
-                checkbox.click();
-            }
-            dr.navigate().refresh();
-
-    //      打印当前页面上有多少个checkbox
-            System.out.printf("%d\n", checkboxes.size());
-
-    //      选择页面上所有的input，然后从中过滤出所有的checkbox并勾选之
-            List&lt;WebElement&gt; inputs = dr.findElements(By.tagName("input"));
-            for(WebElement input : inputs){
-                if(input.getAttribute("type").equals("checkbox")){
-                    input.click();
-                }
-            }
-
-    //      把页面上最后1个checkbox的勾给去掉
-            List&lt;WebElement&gt; allCheckboxes = dr.findElements(By.cssSelector("input[type=checkbox]"));
-            allCheckboxes.get(allCheckboxes.size() - 1).click();
-
-            Thread.sleep(1000);
-            System.out.println("browser will be close");
-            dr.quit();  
-        }
-
-    }
+sleep 2
+b.close
   	     </c>
   	     <c title="层级定位"  pos="10">
-场景
+#encoding: utf-8
+require 'watir-webdriver'
 
-在实际的项目测试中，经常会有这样的需求：页面上有很多个属性基本相同的元素，现在需要具体定位到其中的一个。由于属性基本相当，所以在定位的时候会有些麻烦，这时候就需要用到层级定位。先定位父元素，然后再通过父元素定位子孙元素。
+b = Watir::Browser.new :chrome
+file_path = 'file:///' + File.expand_path(File.join('.', 'level_locate.html'))
 
-代码
+b.goto file_path
 
-下面的代码演示了如何通过层级定位来定位下拉菜单中的某一项。由于两个下拉菜单中每个选项的link text都相同，href也一样，所以在这里就需要使用层级定位了。
+b.link(:text, 'Link1').click
 
-具体思路是：先点击显示出1个下拉菜单，然后再定位到该下拉菜单所在的ul，再定位这个ul下的某个具体的link。在这里，我们定位第1个下拉菜单中的Another action这个选项。
-
-level_locate.java
-
-    import java.io.File;
-
-    import org.openqa.selenium.By;
-    import org.openqa.selenium.WebDriver;
-    import org.openqa.selenium.WebElement;
-    import org.openqa.selenium.chrome.ChromeDriver;
-    import org.openqa.selenium.interactions.Actions;
-    import org.openqa.selenium.support.ui.ExpectedCondition;
-    import org.openqa.selenium.support.ui.WebDriverWait;
+=begin
+wait = Selenium::WebDriver::Wait.new({:timeout => 30})
+wait.until { dr.find_element(:id, 'dropdown1').displayed? }
+menu = dr.find_element(:id, 'dropdown1').find_element(:link_text, 'Another action')
+dr.action.move_to(menu).perform()
+=end
 
 
-    public class LevelLocate {
+menu = b.ul(:id, 'dropdown1').when_present.link(:text, 'Another action')
+menu.focus
 
-        public static void main(String[] args) throws InterruptedException {
-            WebDriver dr = new ChromeDriver();
-
-            File file = new File("src/level_locate.html");
-            String filePath = "file:///" + file.getAbsolutePath();
-            System.out.printf("now accesss %s \n", filePath);
-
-            dr.get(filePath);
-            Thread.sleep(1000);
-
-            dr.findElement(By.linkText("Link1")).click();
-
-            (new WebDriverWait(dr, 10)).until(new ExpectedCondition&lt;Boolean&gt;(){
-                public Boolean apply(WebDriver d){
-                    return d.findElement(By.id("dropdown1")).isDisplayed();
-                }
-            } );
-
-            WebElement menu = dr.findElement(By.id("dropdown1")).findElement(By.linkText("Another action"));
-            (new Actions(dr)).moveToElement(menu).perform();
-
-            Thread.sleep(1000);
-            System.out.println("browser will be close");
-            dr.quit();  
-        }
-
-    }
-
-
-讨论
-
-move_to方法实际上是模拟把鼠标移动到某个具体的测试对象上。
+sleep 2
+b.close
   	     </c>
   	     <c title="操作测试对象" pos="11">
-场景
+#encoding: utf-8
+require 'watir-webdriver'
 
-定位到具体的对象后，我们就可以对这个对象进行具体的操作，比如先前已经看到过的点击操作(click)。一般来说，webdriver中比较常用的操作对象的方法有下面几个
+b = Watir::Browser.new :chrome
+file_path = 'file:///' + File.expand_path(File.join('.', 'operate_element.html'))
 
-click 点击对象
-sendKeys 在对象上模拟按键输入
-clear 清除对象的内容，如果可以的话
+b.goto file_path
+#click
+b.link(:text, 'Link1').click
+sleep(1)
+b.link(:text, 'Link1').click
 
-operate_element.java
+#set
+element = b.text_field(:name, 'q')
+element.set 'waitr-webdriver'
+sleep(1)
 
-    import java.io.File;
+#clear
+element.clear
 
-    import org.openqa.selenium.By;
-    import org.openqa.selenium.WebDriver;
-    import org.openqa.selenium.WebElement;
-    import org.openqa.selenium.chrome.ChromeDriver;
-
-
-    public class OperateElement {
-
-        public static void main(String[] args) throws InterruptedException {
-            WebDriver dr = new ChromeDriver();
-
-            File file = new File("src/operate_element.html");
-            String filePath = "file:///" + file.getAbsolutePath();
-            System.out.printf("now accesss %s \n", filePath);
-
-            dr.get(filePath);
-            Thread.sleep(1000);
-
-    //      click
-            dr.findElement(By.linkText("Link1")).click();
-            Thread.sleep(1000);
-            dr.findElement(By.linkText("Link1")).click();
-
-    //      send_keys
-            WebElement element = dr.findElement(By.name("q"));
-            element.sendKeys("something");
-            Thread.sleep(1000);
-
-    //      clear
-            element.clear();
-
-            Thread.sleep(1000);
-            System.out.println("browser will be close");
-            dr.quit();  
-        }
-
-    }
+sleep(2)
+b.close
   	     </c>
   	     <c title="send keys模拟按键输入" pos="12">
-场景
+#encoding: utf-8
+require 'selenium-webdriver'
 
-sendKeys方法可以模拟一些组合键操作，比如ctrl+a等。另外有时候我们需要在测试时使用tab键将焦点转移到下一个元素，这时候也需要sendKeys。在某些更复杂的情况下，还会出现使用sendKeys来模拟上下键来操作下拉列表的情况。
+dr = Selenium::WebDriver.for :chrome
+file_path = 'file:///' + File.expand_path(File.join('.', 'send_keys.html'))
+dr.get file_path
 
-代码
+# copy content of A
+dr.find_element(:id, 'A').send_keys([:control, 'a'])
+dr.find_element(:id, 'A').send_keys([:control, 'x'])
+sleep(1)
 
-下面的代码演示了如何将A多行文本框中的内容清空并复制到B文本框中。
+# paste to B
+dr.find_element(:id, 'B').send_keys([:control, 'v'])
+sleep(1)
 
-import java.io.File;
+# send keys to A
+dr.find_element(:id, 'A').send_keys('watir', '-', 'webdriver', :space, 'is', :space, 'better')
+sleep(2)
 
-    import org.openqa.selenium.By;
-    import org.openqa.selenium.Keys;
-    import org.openqa.selenium.WebDriver;
-    import org.openqa.selenium.chrome.ChromeDriver;
-
-
-    public class SendKeys {
-
-        public static void main(String[] args) throws InterruptedException {
-            WebDriver dr = new ChromeDriver();
-
-            File file = new File("src/send_keys.html");
-            String filePath = "file:///" + file.getAbsolutePath();
-            System.out.printf("now accesss %s \n", filePath);
-
-            dr.get(filePath);
-            Thread.sleep(1000);
-
-    //      copy content of A
-            dr.findElement(By.id("A")).sendKeys(Keys.chord(Keys.CONTROL + "a"));
-            Thread.sleep(1000);
-            dr.findElement(By.id("A")).sendKeys(Keys.chord(Keys.CONTROL + "x"));
-
-    //      paste to B
-            dr.findElement(By.id("B")).sendKeys(Keys.chord(Keys.CONTROL + "v"));
-
-    //      SendKeys to A
-            dr.findElement(By.id("A")).sendKeys(Keys.chord("watir webdriver is better than selenium webdriver"));
-
-            Thread.sleep(1000);
-            System.out.println("browser will be close");
-            dr.quit();  
-        }
-
-    }
+dr.quit()
 
   	     </c>
   	     <c title="处理button group" pos="13">
-场景
+#encoding: utf-8
+require 'selenium-webdriver'
 
-button group就是按钮组，将一组按钮排列在一起。处理这种对象的思路一般是先找到button group的包裹(wrapper)div，然后通过层级定位，用index或属性去定位更具体的按钮。
+dr = Selenium::WebDriver.for :chrome
+file_path = 'file:///' + File.expand_path(File.join('.', 'button_group.html'))
+dr.get file_path
 
-代码
+# 定位text是second的按钮
+second_btn = dr.find_element(:class, 'btn-group').find_elements(:class, 'btn').detect {|btn| btn.text == 'second'}
+second_btn.click()
+sleep(2)
 
-下面的代码演示了如何找到second这个按钮。其处理方法是先找到button group的父div，class为btn-group的div，然后再找到下面所有的div(也就是button)，返回text是second的div。
+dr.quit()
 
-button_group.java
-
-    import java.io.File;
-    import java.util.List;
-
-    import org.openqa.selenium.By;
-    import org.openqa.selenium.Keys;
-    import org.openqa.selenium.WebDriver;
-    import org.openqa.selenium.WebElement;
-    import org.openqa.selenium.chrome.ChromeDriver;
-
-
-    public class ButtonGroup {
-
-        public static void main(String[] args) throws InterruptedException {
-            WebDriver dr = new ChromeDriver();
-
-            File file = new File("src/button_group.html");
-            String filePath = "file:///" + file.getAbsolutePath();
-            System.out.printf("now accesss %s \n", filePath);
-
-            dr.get(filePath);
-            Thread.sleep(1000);
-
-    //      定位text是second的按钮
-            List&lt;WebElement&gt; btns = dr.findElement(By.className("btn-group")).findElements(By.className("btn"));
-
-            for(WebElement btn : btns){
-                if(btn.getText().equals("second")){
-                    btn.click();
-                    break;
-                }
-            }
-
-            Thread.sleep(1000);
-            System.out.println("browser will be close");
-            dr.quit();  
-        }
-
-    }
-
-讨论
-
-自己查资料搞清楚detect方法的作用。
   	     </c>
   	     <c title="处理button dropdown" pos="14">
 场景

@@ -34,16 +34,16 @@ public class GuideActivity extends Activity implements OnClickListener{
 		intent = new Intent(GuideActivity.this,ContentListActivity.class);
 		switch(v.getId()){
 		case R.id.javaBtn: 
-			intent.putExtra("name", "java");
+			intent.putExtra("name", "JAVA");
 			break;
 		case R.id.rubyBtn:
-			intent.putExtra("name", "ruby");
+			intent.putExtra("name", "RUBY");
 			break;
 		case R.id.pythonBtn: 
-			intent.putExtra("name", "python");
+			intent.putExtra("name", "PYTHON");
 			break;
 		case R.id.watirBtn:
-			intent.putExtra("name", "watir");
+			intent.putExtra("name", "WATIR-WEBDRIVER");
 			break;
 		}
 		startActivity(intent);

@@ -13,6 +13,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import android.R.integer;
 import android.R.string;
 import android.graphics.SumPathEffect;
 
@@ -45,7 +46,9 @@ public class XmlParse {
 		}
 		
 	}
+	
 
+	//获取全部节点的属性值形成list
 	public String[] getTitleValue(String childNode, String childNodeAttribute){
 		NodeList nodeList = doc.getElementsByTagName(childNode);
 	
@@ -62,8 +65,17 @@ public class XmlParse {
 		return titleNameGroup;	
 	}
 	
+	//依靠index获取节点属性值
+	public String getIndexTitle(int index) {
+		return titleNameGroup[index];
+	}
 	
-	
+	//获取节点文本
+	public String getContent(String childNode, int index){
 
+		Node node = doc.getElementsByTagName(childNode).item(index);
+		String content = node.getTextContent();
+		return content;
+	}
 	
 }
