@@ -32,10 +32,10 @@
 
         <Button
             android:id="@+id/javaBtn"
-            android:layout_width="250dp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:text="Java"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:background="@drawable/select_language" />
 
     </LinearLayout>
@@ -49,10 +49,10 @@
         
         <Button
             android:id="@+id/rubyBtn"
-            android:layout_width="250dp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:text="Ruby"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:background="@drawable/select_language" />
 
     </LinearLayout>
@@ -66,10 +66,10 @@
         
         <Button
             android:id="@+id/pythonBtn"
-            android:layout_width="250dp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content" 
             android:text="Python"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:textAlignment="center"
             android:background="@drawable/select_language"
             />
@@ -85,10 +85,10 @@
         
         <Button
             android:id="@+id/watirBtn"
-            android:layout_width="250dp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content" 
             android:text="Watir Webdriver"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:textAlignment="center"
             android:background="@drawable/select_language"
             />

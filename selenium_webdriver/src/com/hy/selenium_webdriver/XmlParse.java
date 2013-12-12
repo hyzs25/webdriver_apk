@@ -48,13 +48,14 @@ public class XmlParse {
 
 	public String[] getTitleValue(String childNode, String childNodeAttribute){
 		NodeList nodeList = doc.getElementsByTagName(childNode);
+	
 		int sum = nodeList.getLength();
+		titleNameGroup = new String[sum];
 		for(int i=0; i < sum; i++){
 			Node node = nodeList.item(i);
 			NamedNodeMap map = node.getAttributes();
 			String titleName = map.getNamedItem(childNodeAttribute).getNodeValue();
 			
-			titleNameGroup = new String[sum];
 			titleNameGroup[i] = titleName;
 		}
 		 
